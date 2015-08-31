@@ -1,14 +1,55 @@
 class HumanPlayer
+  attr_accessor :display, :from_pos, :to_pos
+
   def initialize(name)
     @name = name
+    @from_pos, @to_pos = nil, nil
   end
 
   def get_move
-    get_user_input
+    until move_made?
+      input = get_user_input
+
+      select_piece if input == :return
+      move_cursor(input) if arrow_key?(input)
+      save if saved?
+    end
+
+    move = [from_pos, to_pos]
+    from_pos, to_pos = nil, nil
+    move
+  end
+
+  def move_made?
+    from_pos && to_pos
   end
 
 
   private
+
+  def save
+  end
+
+  def arrow_key?(input)
+    [:up, :down, :left, :right].include?(input)
+  end
+
+  def saved?
+    false
+  end
+
+  def move_cursor(input)
+    display.update_cursor(input)
+    display.render
+  end
+
+  def select_piece
+    if self.from_pos.nil?
+      self.from_pos = display.cursor.dup
+    else
+      self.to_pos = display.cursor.dup
+    end
+  end
 
   def read_char
     STDIN.echo = false
@@ -35,7 +76,7 @@ class HumanPlayer
 
       case c
       when "\r"
-        :return
+        return :return
       when "\e[A"
         return :up
       when "\e[B"

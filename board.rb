@@ -9,10 +9,10 @@ class Board
   end
 
   def move(start_pos, end_pos)
-    piece = board[start_pos]
-    board[end_pos] = piece
+    piece = self[start_pos]
+    self[end_pos] = piece
     piece.position = end_pos
-    board[start_pos] = NullPiece.new
+    self[start_pos] = NullPiece.new
   end
 
   def valid_move?(start_pos, end_pos)

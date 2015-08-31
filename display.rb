@@ -7,7 +7,7 @@ class Display
   def initialize(board)
     @board = board
     @cursor = [0, 0]
-    @selected = false
+    @selected = nil
   end
 
   def render

@@ -9,18 +9,48 @@ class Game
     @players = players
     @board = Board.new
     @display = Display.new(board)
+
+    players.each { |player| player.display = display }
   end
 
   def play
     until game_over?
       display.render
-      move = players.first.get_move
-      display.update_cursor(move)
+      play_turn
+
+      players.rotate!
     end
+    puts "Game over."
+  end
+
+  def play_turn
+    move = get_move
+    update_board(move)
+  """
+  rescue FishError
+    puts 'Invalid move.'
+    retry
+  """
+  end
+
+  def update_board(move)
+    board.move(*move)
   end
 
   def game_over?
     false
+  end
+
+  def get_move
+    current_player.get_move
+  end
+
+  def selected?
+
+  end
+
+  def current_player
+    players.first
   end
 
 end
