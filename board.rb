@@ -13,6 +13,7 @@ class Board
     self[end_pos] = piece
     piece.position = end_pos
     self[start_pos] = NullPiece.new(start_pos, self)
+    piece.moved = true
   end
 
   def valid_move?(start_pos, end_pos)
