@@ -1,4 +1,4 @@
-require_relative 'piece.rb'
+require_relative "all_pieces.rb"
 
 class Board
   attr_accessor :grid
