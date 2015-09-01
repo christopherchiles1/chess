@@ -15,9 +15,9 @@ class Game
 
   def play
     game_intro
-    display.render
 
     until game_over?
+      display.render
       play_turn
       players.rotate!
     end

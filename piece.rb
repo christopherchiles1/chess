@@ -1,39 +1,36 @@
+require_relative "slideable.rb"
+
 class Piece
-  attr_reader :color
+  attr_reader :color, :board, :directions
   attr_accessor :position
 
-  def initialize(position, color)
+  def initialize(position, board, color)
+    @board = board
     @position = position
     @color = color
   end
 
-  def self.create_piece(piece, position, color)
-    case piece
-    when :queen
-      Queen.new(position, color)
-    when :rook
-      Rook.new(position, color)
-    when :bishop
-      Bishop.new(position, color)
-    when :knight
-      Knight.new(position, color)
-    when :king
-      King.new(position, color)
-    when :pawn
-      Pawn.new(position, color)
-    end
+  def empty?
+    false
   end
 end
 
 
 class NullPiece < Piece
-  def initialize(position)
-    super(position, :grey)
+
+  def initialize(position, board)
+    @directions = {}
+    super(position, board, :grey)
   end
 
   def to_s
     "   "
   end
+
+  def empty?
+    true
+  end
+
 end
 
 class King < Piece
@@ -50,12 +47,36 @@ class Queen < Piece
 end
 
 class Rook < Piece
+  include Slideable
+
+  def initialize(position, board, color)
+    @directions = {
+      :n => [-1, 0],
+      :s => [1, 0],
+      :w => [0, -1],
+      :e => [0, 1]
+    }
+    super
+  end
+
   def to_s
     " \u265C "
   end
 end
 
 class Bishop < Piece
+  include Slideable
+
+  def initialize(position, board, color)
+    @directions = {
+      :nw => [-1, -1],
+      :ne => [-1, 1],
+      :sw => [1, -1],
+      :se => [1, 1]
+    }
+    super
+  end
+
   def to_s
     " \u265D "
   end
