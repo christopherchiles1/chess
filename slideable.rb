@@ -1,6 +1,6 @@
 module Slideable
 
-  def straights
+  def moves
     directions.keys.inject([]) do |moves, direction|
       new_position = shift_position(position, direction)
       moves + step(new_position, direction)
@@ -16,7 +16,7 @@ module Slideable
   end
 
   def shift_position(position, direction)
-    value = position.map.with_index do |pos, idx|
+    position.map.with_index do |pos, idx|
       pos + directions[direction][idx]
     end
   end
