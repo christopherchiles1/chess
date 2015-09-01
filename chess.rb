@@ -14,10 +14,11 @@ class Game
   end
 
   def play
-    until game_over?
-      display.render
-      play_turn
+    game_intro
+    display.render
 
+    until game_over?
+      play_turn
       players.rotate!
     end
     puts "Game over."
@@ -31,6 +32,10 @@ class Game
   #   retry
   end
 
+  def game_intro
+    puts "Welcome!"
+  end
+
   def update_board(move)
     board.move(*move)
   end
@@ -39,18 +44,13 @@ class Game
     false
   end
 
-  def get_move
-    current_player.get_move
-  end
-
-  def selected?
-
-  end
-
   def current_player
     players.first
   end
 
+  def get_move
+    current_player.get_move
+  end
 end
 
 if __FILE__ == $PROGRAM_NAME

@@ -1,21 +1,18 @@
 require_relative 'piece.rb'
-require 'byebug'
 
 class Board
-  attr_accessor :board
+  attr_accessor :grid
 
   def initialize
-    @board = Array.new(8) { Array.new(8) { NullPiece.new } }
-    setup_board
+    @grid = empty_grid
+    setup_grid
   end
 
   def move(start_pos, end_pos)
-    p start_pos, end_pos
-    debugger if end_pos == [0, 4]
     piece = self[start_pos]
     self[end_pos] = piece
     piece.position = end_pos
-    self[start_pos] = NullPiece.new
+    self[start_pos] = NullPiece.new(start_pos)
   end
 
   def valid_move?(start_pos, end_pos)
@@ -25,12 +22,12 @@ class Board
 
   def [](pos)
     x, y = pos
-    board[x][y]
+    grid[x][y]
   end
 
   def []=(pos, val)
     x, y = pos
-    board[x][y] = val
+    grid[x][y] = val
   end
 
   def inspect
@@ -57,7 +54,7 @@ class Board
     :pawn => [[6,0], [6,1], [6,2], [6,3], [6,4], [6,5], [6,6], [6,7]]
   }
 
-  def setup_board
+  def setup_grid
     INITIAL_WHITE_POSITIONS.each do |piece, positions|
       positions.each do |position|
         self[position] = Piece.create_piece(piece, position, :white)
@@ -68,6 +65,16 @@ class Board
         self[position] = Piece.create_piece(piece, position, :black)
       end
     end
+  end
+
+  def empty_grid
+    grid = Array.new(8) { Array.new(8) }
+    grid.each_with_index do |row, row_index|
+      row.each_index do |col_index|
+        grid[row_index][col_index] = NullPiece.new([row_index, col_index])
+      end
+    end
+    grid
   end
 
 end

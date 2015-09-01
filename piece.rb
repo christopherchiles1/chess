@@ -7,10 +7,6 @@ class Piece
     @color = color
   end
 
-  def white?
-    color == :white
-  end
-
   def self.create_piece(piece, position, color)
     case piece
     when :queen
@@ -30,11 +26,9 @@ class Piece
 end
 
 
-class NullPiece
-  attr_reader :color
-
-  def initialize
-    @color = :grey 
+class NullPiece < Piece
+  def initialize(position)
+    super(position, :grey)
   end
 
   def to_s
