@@ -16,7 +16,7 @@ class HumanPlayer
     end
 
     move = [from_pos, to_pos]
-    from_pos, to_pos = nil, nil
+    self.from_pos, self.to_pos = nil, nil
     move
   end
 
@@ -46,8 +46,10 @@ class HumanPlayer
   def select_piece
     if self.from_pos.nil?
       self.from_pos = display.cursor.dup
+      display.selected = from_pos
     else
       self.to_pos = display.cursor.dup
+      display.selected = nil
     end
   end
 

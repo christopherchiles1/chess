@@ -1,4 +1,5 @@
 require_relative 'piece.rb'
+require 'byebug'
 
 class Board
   attr_accessor :board
@@ -9,6 +10,8 @@ class Board
   end
 
   def move(start_pos, end_pos)
+    p start_pos, end_pos
+    debugger if end_pos == [0, 4]
     piece = self[start_pos]
     self[end_pos] = piece
     piece.position = end_pos

@@ -2,7 +2,7 @@ require "colorize"
 require 'io/console'
 
 class Display
-  attr_accessor :cursor
+  attr_accessor :cursor, :selected
 
   def initialize(board)
     @board = board
@@ -16,16 +16,28 @@ class Display
     @board.board.each_with_index do |row, row_index|
       print " #{row_index} "
       row.each_with_index do |piece, col_index|
-        background = (row_index + col_index).even? ? :light_blue : :light_green
-        if @cursor == [row_index, col_index]
-          print piece.to_s.colorize(:background => :yellow, :color => piece.color)
-        else
-          print piece.to_s.colorize(:background => background, :color => piece.color)
+        position = [row_index, col_index]
+        background = checker_colors(*position)
+        colored_piece = colorize_piece(piece, background)
+
+        if @cursor == position
+          colored_piece = colored_piece.colorize(:background => :yellow)
+        elsif !@selected.nil? && @selected == position
+          colored_piece = colored_piece.colorize(:background => :red)
         end
+        print colored_piece
       end
       puts
     end
     nil
+  end
+
+  def colorize_piece(piece, background)
+    piece.to_s.colorize(:background => background, :color => piece.color)
+  end
+
+  def checker_colors(row_index, col_index)
+    (row_index + col_index).even? ? :light_blue : :light_green
   end
 
   def update_cursor(direction)

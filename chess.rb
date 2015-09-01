@@ -26,11 +26,9 @@ class Game
   def play_turn
     move = get_move
     update_board(move)
-  """
-  rescue FishError
-    puts 'Invalid move.'
-    retry
-  """
+  # rescue FishError
+  #   puts 'Invalid move.'
+  #   retry
   end
 
   def update_board(move)
