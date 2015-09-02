@@ -16,9 +16,9 @@ class Display
     player = game.current_player
     system("clear")
     print "    A  B  C  D  E  F  G  H   "
-    puts "#{player.name}'s turn. #{player.color} "
+    puts "#{player.name}'s turn (#{player.color}) "
     board.grid.each_with_index do |row, row_index|
-      print " #{row_index} "
+      print " #{row_index + 1} "
       row.each_with_index do |piece, col_index|
         position = [row_index, col_index]
         background = checker_colors(*position)

@@ -1,5 +1,5 @@
 class HumanPlayer
-  attr_accessor :display, :from_pos, :to_pos, :name, :color
+  attr_accessor :display, :from_pos, :to_pos, :name, :color, :board
 
   def initialize(name)
     @name = name
@@ -45,6 +45,7 @@ class HumanPlayer
 
   def select_piece
     if self.from_pos.nil?
+      raise InvalidMoveError if board[display.cursor].color != color 
       self.from_pos = display.cursor.dup
       display.selected = from_pos
     else

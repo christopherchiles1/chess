@@ -14,6 +14,7 @@ class Game
     players.each_with_index do |player, index|
       player.display = display
       player.color = colors[index]
+      player.board = board
     end
   end
 
@@ -45,7 +46,7 @@ class Game
   end
 
   def game_over?
-    false
+    [:white, :black].any? { |color| board.checkmate?(color) }
   end
 
   def current_player

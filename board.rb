@@ -45,13 +45,27 @@ class Board
   end
 
   def inspect
-    "test".to_s
+    "Board".to_s
   end
 
   def in_check?(color)
     king_pos = find_king(color)
     grid.flatten.any? do |piece|
       piece.moves.include?(king_pos)
+    end
+  end
+
+  def checkmate?(color)
+    in_check?(color) && no_moves_left?(color)
+  end
+
+  def no_moves_left?(color)
+    grid.flatten.all? do |piece|
+      if piece.color == color
+        piece.valid_moves.empty?
+      else
+        true
+      end
     end
   end
 
