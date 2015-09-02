@@ -13,9 +13,10 @@ class Display
   end
 
   def render
+    player = game.current_player
     system("clear")
     print "    A  B  C  D  E  F  G  H   "
-    puts "#{game.current_player.name}'s turn!"
+    puts "#{player.name}'s turn. #{player.color} "
     board.grid.each_with_index do |row, row_index|
       print " #{row_index} "
       row.each_with_index do |piece, col_index|

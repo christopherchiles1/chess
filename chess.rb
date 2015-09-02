@@ -10,7 +10,11 @@ class Game
     @board = Board.new
     @display = Display.new(board, self)
 
-    players.each { |player| player.display = display }
+    colors = [:white, :black]
+    players.each_with_index do |player, index|
+      player.display = display
+      player.color = colors[index]
+    end
   end
 
   def play

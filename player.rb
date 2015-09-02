@@ -1,5 +1,5 @@
 class HumanPlayer
-  attr_accessor :display, :from_pos, :to_pos, :name
+  attr_accessor :display, :from_pos, :to_pos, :name, :color
 
   def initialize(name)
     @name = name
