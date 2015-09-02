@@ -3,17 +3,19 @@ require 'io/console'
 
 class Display
   attr_accessor :cursor, :selected
-  attr_reader :board
+  attr_reader :board, :game
 
-  def initialize(board)
+  def initialize(board, game)
     @board = board
+    @game = game
     @cursor = [0, 0]
     @selected = nil
   end
 
   def render
     system("clear")
-    puts "    A  B  C  D  E  F  G  H"
+    print "    A  B  C  D  E  F  G  H   "
+    puts "#{game.current_player.name}'s turn!"
     board.grid.each_with_index do |row, row_index|
       print " #{row_index} "
       row.each_with_index do |piece, col_index|
@@ -34,12 +36,14 @@ class Display
       background = :yellow
     elsif !@selected.nil? && @selected == position
       background = :red
+    elsif !@selected.nil? && board[@selected].valid_moves.include?(position)
+      background = :green
     end
     piece.to_s.colorize(:background => background, :color => piece.color)
   end
 
   def checker_colors(row_index, col_index)
-    (row_index + col_index).even? ? :light_blue : :light_green
+    (row_index + col_index).even? ? :blue : :magenta
   end
 
   def update_cursor(direction)

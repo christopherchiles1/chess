@@ -8,7 +8,7 @@ class Game
   def initialize(players)
     @players = players
     @board = Board.new
-    @display = Display.new(board)
+    @display = Display.new(board, self)
 
     players.each { |player| player.display = display }
   end
@@ -27,9 +27,9 @@ class Game
   def play_turn
     move = get_move
     update_board(move)
-  # rescue FishError
-  #   puts 'Invalid move.'
-  #   retry
+  rescue InvalidMoveError
+    puts 'Invalid move.'
+    retry
   end
 
   def game_intro
@@ -51,6 +51,9 @@ class Game
   def get_move
     current_player.get_move
   end
+end
+
+class InvalidMoveError < StandardError
 end
 
 if __FILE__ == $PROGRAM_NAME

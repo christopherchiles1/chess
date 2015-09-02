@@ -10,16 +10,25 @@ class Board
 
   def move(start_pos, end_pos)
     piece = self[start_pos]
+    raise InvalidMoveError unless piece.valid_moves.include?(end_pos)
     self[end_pos] = piece
     piece.position = end_pos
     self[start_pos] = NullPiece.new(start_pos, self)
     piece.moved = true
   end
 
-  def valid_move?(start_pos, end_pos)
-    raise NoPieceError if self[start_pos].is_a?(NullPiece)
-    raise InvalidMoveError if self[end_pos]
+  def move_piece!(start_pos, end_pos)
+    piece = self[start_pos]
+    self[end_pos] = piece
+    piece.position = end_pos
+    self[start_pos] = NullPiece.new(start_pos, self)
+    piece.moved = true
   end
+
+  # def valid_move?(start_pos, end_pos)
+  #   raise NoPieceError if self[start_pos].is_a?(NullPiece)
+  #   raise InvalidMoveError if self[end_pos]
+  # end
 
   def on_board?(pos)
     pos.all? { |i| i.between?(0, 7) }
@@ -37,6 +46,27 @@ class Board
 
   def inspect
     "test".to_s
+  end
+
+  def in_check?(color)
+    king_pos = find_king(color)
+    grid.flatten.any? do |piece|
+      piece.moves.include?(king_pos)
+    end
+  end
+
+  def deep_dup
+    dupped_board = Board.new
+    grid.flatten.each do |piece|
+      dupped_board[piece.position] = piece.dup(dupped_board)
+    end
+    dupped_board
+  end
+
+  def find_king(color)
+    grid.flatten.each do |piece|
+      return piece.position if (piece.is_a?(King) && piece.color == color)
+    end
   end
 
   private

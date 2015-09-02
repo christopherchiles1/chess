@@ -1,5 +1,5 @@
 class HumanPlayer
-  attr_accessor :display, :from_pos, :to_pos
+  attr_accessor :display, :from_pos, :to_pos, :name
 
   def initialize(name)
     @name = name
@@ -51,6 +51,7 @@ class HumanPlayer
       self.to_pos = display.cursor.dup
       display.selected = nil
     end
+    display.render
   end
 
   def read_char
